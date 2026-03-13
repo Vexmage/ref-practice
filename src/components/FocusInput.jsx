@@ -1,5 +1,10 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
+
+<p>
+  This child exposes a focusInput() method that focuses the input below.
+</p>
+
 const FocusInput = forwardRef(function FocusInput(props, ref) {
   const inputRef = useRef(null);
 
