@@ -2,6 +2,8 @@ import { useRef } from "react";
 import ChildBox from "./components/ChildBox";
 import FocusInput from "./components/FocusInput";
 import DemoCard from "./components/DemoCard";
+import NoticeBox from "./components/NoticeBox";
+import CodeExample from "./components/CodeExample";
 
 function App() {
   const childRef = useRef(null);
@@ -167,6 +169,57 @@ function App() {
               <button onClick={handleResetChild}>Reset child</button>
 
               <ChildBox ref={childRef} />
+
+              <h3 style={{ marginTop: "1.5rem" }}>Relevant code</h3>
+
+              <CodeExample
+                title="Child component exposing methods"
+                code={`const ChildBox = forwardRef(function ChildBox(props, ref) {
+  const [message, setMessage] = useState("Child is waiting...");
+
+  useImperativeHandle(ref, () => ({
+    changeMessageFromParent() {
+      setMessage("Parent called me. React wizardry achieved.");
+    },
+    resetMessage() {
+      setMessage("Child is waiting...");
+    }
+  }));
+
+  return <div>{message}</div>;
+});`}
+              />
+
+              <NoticeBox
+                items={[
+                  "forwardRef allows the child component to receive the parent’s ref.",
+                  "useImperativeHandle defines what the parent is allowed to access.",
+                  "The child still controls its own state internally."
+                ]}
+              />
+
+              <CodeExample
+                title="Parent calling the child methods"
+                code={`const childRef = useRef(null);
+
+const handleCallChild = () => {
+  childRef.current?.changeMessageFromParent();
+};
+
+const handleResetChild = () => {
+  childRef.current?.resetMessage();
+};
+
+<ChildBox ref={childRef} />`}
+              />
+
+              <NoticeBox
+                items={[
+                  "useRef creates the reference container.",
+                  "childRef.current points to the interface exposed by the child.",
+                  "The parent is calling methods intentionally exposed by the child."
+                ]}
+              />
             </DemoCard>
           </div>
 
@@ -190,6 +243,50 @@ function App() {
               <button onClick={handleFocusInput}>Focus child input</button>
 
               <FocusInput ref={inputRef} />
+
+              <h3 style={{ marginTop: "1.5rem" }}>Relevant code</h3>
+
+              <CodeExample
+                title="Child component exposing focusInput"
+                code={`const FocusInput = forwardRef(function FocusInput(props, ref) {
+  const inputRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    focusInput() {
+      inputRef.current?.focus();
+    }
+  }));
+
+  return <input ref={inputRef} />;
+});`}
+              />
+
+              <NoticeBox
+                items={[
+                  "The child keeps a ref to its internal input element.",
+                  "useImperativeHandle exposes a method to the parent.",
+                  "The parent can now trigger focus without reaching into the DOM structure itself."
+                ]}
+              />
+
+              <CodeExample
+                title="Parent triggering focus"
+                code={`const inputRef = useRef(null);
+
+const handleFocusInput = () => {
+  inputRef.current?.focusInput();
+};
+
+<FocusInput ref={inputRef} />`}
+              />
+
+              <NoticeBox
+                items={[
+                  "The parent does not manipulate the input directly.",
+                  "Instead it calls the method exposed by the child.",
+                  "This keeps the child in control of its internal implementation."
+                ]}
+              />
             </DemoCard>
           </div>
         </main>

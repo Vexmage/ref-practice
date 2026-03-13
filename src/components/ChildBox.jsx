@@ -1,10 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 
-<p>
-  This child exposes methods through useImperativeHandle so the parent can
-  trigger its behavior.
-</p>
-
 const ChildBox = forwardRef(function ChildBox(props, ref) {
   const [message, setMessage] = useState("Child is waiting...");
 
@@ -27,6 +22,11 @@ const ChildBox = forwardRef(function ChildBox(props, ref) {
       }}
     >
       <h2>Child Component</h2>
+
+      <p>
+        This child exposes methods through <code>useImperativeHandle</code> so
+        the parent can trigger its behavior.
+      </p>
 
       <p>{message}</p>
 

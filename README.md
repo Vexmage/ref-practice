@@ -1,4 +1,8 @@
-# React Ref Practice Lab
+# React Concept Lab
+Interactive demonstrations of React concepts
+
+
+## Concept 1: Refs and imperative handles
 
 A small practice project demonstrating how a parent component can call methods inside a child component using React refs.
 
