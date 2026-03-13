@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import ChildBox from "./components/ChildBox";
 import FocusInput from "./components/FocusInput";
+import DemoCard from "./components/DemoCard";
 
 function App() {
   const childRef = useRef(null);
@@ -21,134 +22,178 @@ function App() {
   return (
     <div
       style={{
-        padding: "2rem",
         fontFamily: "sans-serif",
-        lineHeight: "1.6",
-        maxWidth: "900px",
-        margin: "0 auto"
+        backgroundColor: "#f3f4f6",
+        minHeight: "100vh",
+        color: "#1f2937"
       }}
     >
-      <h1>React Ref Practice Lab</h1>
-
-      <p>
-        This small app demonstrates how a parent component can interact with a
-        child component using <strong>useRef</strong>,{" "}
-        <strong>forwardRef</strong>, and{" "}
-        <strong>useImperativeHandle</strong>.
-      </p>
-
-      <p>
-        In normal React architecture, data usually flows downward through props,
-        and child components communicate upward through callbacks. This app
-        shows a more special-case pattern: a parent using a ref to call a method
-        that the child deliberately exposes.
-      </p>
-
       <div
         style={{
-          backgroundColor: "#f4f4f4",
-          padding: "1rem",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          marginBottom: "2rem"
+          maxWidth: "1200px",
+          margin: "0 auto",
+          padding: "2rem",
+          display: "grid",
+          gridTemplateColumns: "260px 1fr",
+          gap: "2rem",
+          alignItems: "start"
         }}
       >
-        <h2 style={{ marginTop: 0 }}>What this app demonstrates</h2>
+        <aside
+          style={{
+            backgroundColor: "#ffffff",
+            border: "1px solid #d6d6d6",
+            borderRadius: "12px",
+            padding: "1.25rem",
+            position: "sticky",
+            top: "1rem",
+            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)"
+          }}
+        >
+          <h2 style={{ marginTop: 0 }}>React Concept Lab</h2>
 
-        <p>
-          <strong>useRef</strong>: creates a persistent reference object in the
-          parent.
-        </p>
+          <p style={{ fontSize: "0.95rem" }}>
+            A small interactive tutorial app for learning React patterns through
+            explanation and live demos.
+          </p>
 
-        <p>
-          <strong>forwardRef</strong>: allows a child function component to
-          receive a ref from its parent.
-        </p>
+          <hr style={{ margin: "1rem 0" }} />
 
-        <p>
-          <strong>useImperativeHandle</strong>: lets the child decide what
-          methods or values the parent can access through that ref.
-        </p>
+          <h3 style={{ marginBottom: "0.5rem" }}>Concepts</h3>
 
-        <p style={{ marginBottom: 0 }}>
-          In short: the parent holds a ref, the child accepts it, and the child
-          exposes a small public interface through that ref.
-        </p>
+          <nav>
+            <ul style={{ listStyle: "none", paddingLeft: 0, margin: 0 }}>
+              <li style={{ marginBottom: "0.75rem" }}>
+                <a href="#overview" style={{ color: "#2563eb", textDecoration: "none" }}>
+                  Overview
+                </a>
+              </li>
+              <li style={{ marginBottom: "0.75rem" }}>
+                <a href="#example-1" style={{ color: "#2563eb", textDecoration: "none" }}>
+                  Parent calling child methods
+                </a>
+              </li>
+              <li style={{ marginBottom: "0.75rem" }}>
+                <a href="#example-2" style={{ color: "#2563eb", textDecoration: "none" }}>
+                  Parent focusing child input
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <hr style={{ margin: "1rem 0" }} />
+
+          <div style={{ fontSize: "0.95rem" }}>
+            <p>
+              <strong>Core APIs:</strong>
+            </p>
+            <p style={{ margin: "0.25rem 0" }}>• useRef</p>
+            <p style={{ margin: "0.25rem 0" }}>• forwardRef</p>
+            <p style={{ margin: "0.25rem 0" }}>• useImperativeHandle</p>
+          </div>
+        </aside>
+
+        <main>
+          <section
+            id="overview"
+            style={{
+              backgroundColor: "#ffffff",
+              border: "1px solid #d6d6d6",
+              borderRadius: "12px",
+              padding: "1.5rem",
+              marginBottom: "1.5rem",
+              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)"
+            }}
+          >
+            <h1 style={{ marginTop: 0 }}>Refs and Imperative Handles</h1>
+
+            <p>
+              This app demonstrates a special React pattern where a parent
+              component interacts with a child component through a ref.
+            </p>
+
+            <p>
+              In normal React architecture, data usually flows downward through
+              props, and children communicate upward through callbacks.
+            </p>
+
+            <p>
+              These examples show an escape hatch: the child deliberately
+              exposes a small interface, and the parent uses a ref to call that
+              interface.
+            </p>
+
+            <div
+              style={{
+                backgroundColor: "#f9fafb",
+                border: "1px solid #e5e7eb",
+                borderRadius: "8px",
+                padding: "1rem",
+                marginTop: "1rem"
+              }}
+            >
+              <p style={{ margin: "0 0 0.5rem 0" }}>
+                <strong>Normal React flow:</strong> state → props → render
+              </p>
+              <p style={{ margin: 0 }}>
+                <strong>This demo’s pattern:</strong> parent ref → child exposed
+                method → child action
+              </p>
+            </div>
+          </section>
+
+          <div id="example-1">
+            <DemoCard
+              title="Example 1 — Parent calling methods in a child"
+              summary="This example shows a child component exposing methods through useImperativeHandle. The parent holds a ref and calls those methods to trigger changes inside the child."
+              takeaway="The parent does not directly mutate the child. Instead, the child deliberately exposes a limited set of methods through the ref."
+            >
+              <p>
+                The child component exposes:
+                <code> changeMessageFromParent() </code>
+                and
+                <code> resetMessage() </code>.
+              </p>
+
+              <p>
+                Clicking the buttons below makes the parent call those methods.
+                The child then updates its own internal state.
+              </p>
+
+              <button onClick={handleCallChild} style={{ marginRight: "0.5rem" }}>
+                Change child from parent
+              </button>
+
+              <button onClick={handleResetChild}>Reset child</button>
+
+              <ChildBox ref={childRef} />
+            </DemoCard>
+          </div>
+
+          <div id="example-2">
+            <DemoCard
+              title="Example 2 — Parent focusing an input inside a child"
+              summary="This example shows one of the most common real uses of forwardRef: letting a parent trigger focus on an input that lives inside a child component."
+              takeaway="Refs are especially useful for imperative UI actions like focus, scrolling, animation triggers, or media controls."
+            >
+              <p>
+                The child contains an input element and exposes a
+                <code> focusInput() </code>
+                method.
+              </p>
+
+              <p>
+                When the button is clicked, the parent calls that method through
+                the ref, and the child focuses its internal input.
+              </p>
+
+              <button onClick={handleFocusInput}>Focus child input</button>
+
+              <FocusInput ref={inputRef} />
+            </DemoCard>
+          </div>
+        </main>
       </div>
-
-      <div
-        style={{
-          backgroundColor: "#fff8e1",
-          padding: "1rem",
-          borderRadius: "8px",
-          border: "1px solid #e6d28f",
-          marginBottom: "2rem"
-        }}
-      >
-        <h2 style={{ marginTop: 0 }}>Normal React flow vs this demo</h2>
-
-        <p>
-          <strong>Normal React flow:</strong> state -&gt; props -&gt; render
-        </p>
-
-        <p>
-          <strong>This demo:</strong> parent ref -&gt; child exposed method
-          -&gt; child action
-        </p>
-
-        <p style={{ marginBottom: 0 }}>
-          This pattern is usually considered an <em>escape hatch</em>. It is
-          useful for cases like focusing inputs, controlling media players,
-          triggering animations, or resetting child components.
-        </p>
-      </div>
-
-      <hr style={{ margin: "2rem 0" }} />
-
-      <section style={{ marginBottom: "2rem" }}>
-        <h2>Example 1 — Parent calling methods in a child</h2>
-
-        <p>
-          In this example, the child component exposes two methods:
-          <code> changeMessageFromParent() </code>
-          and
-          <code> resetMessage() </code>.
-        </p>
-
-        <p>
-          Clicking the buttons below causes the parent to call those methods
-          through a ref. The child then updates its own internal state.
-        </p>
-
-        <button onClick={handleCallChild} style={{ marginRight: "0.5rem" }}>
-          Change child from parent
-        </button>
-
-        <button onClick={handleResetChild}>Reset child</button>
-
-        <ChildBox ref={childRef} />
-      </section>
-
-      <hr style={{ margin: "2rem 0" }} />
-
-      <section>
-        <h2>Example 2 — Parent focusing an input inside a child</h2>
-
-        <p>
-          This is one of the most common real-world uses of{" "}
-          <code>forwardRef</code>. The child contains an input element and
-          exposes a <code>focusInput()</code> method.
-        </p>
-
-        <p>
-          When the parent button is clicked, the parent calls that method
-          through the ref, and the child focuses its internal input element.
-        </p>
-
-        <button onClick={handleFocusInput}>Focus child input</button>
-
-        <FocusInput ref={inputRef} />
-      </section>
     </div>
   );
 }
