@@ -1,6 +1,21 @@
 # React Concept Lab
-Interactive demonstrations of React concepts
 
+An interactive tutorial app demonstrating advanced React patterns through
+live examples, explanations, and code snippets.
+
+Concepts currently demonstrated:
+
+- useRef
+- forwardRef
+- useImperativeHandle
+
+Examples include:
+
+• Parent calling methods exposed by a child component  
+• Parent triggering focus on an input inside a child  
+
+This project is designed as an educational "concept lab" rather than a
+traditional CRUD demo.
 
 ## Concept 1: Refs and imperative handles
 
